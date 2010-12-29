@@ -1,6 +1,7 @@
 /*!
  * jQuery Mobile Carousel
  * Source: https://github.com/blackdynamo/jQuery-Mobile-Carousel
+ * Demo: http://jsfiddle.net/blackdynamo/yxhzU/
  *
  * Copyright 2010, Donnovan Lewis
  * Licensed under the MIT

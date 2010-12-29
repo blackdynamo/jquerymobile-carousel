@@ -1,0 +1,7 @@
+You must use the jquery.ui.ipad.js plugin in order for jQuery UI widgets to recognize mobile touch events as click events.
+
+Available options:
+
+duration: this is the number of milliseconds for the slide transition to happen.
+direction: whether the carousel is a "horizontal" or "vertical" carousel.
+minimumDrag: this is the minimum distance the carousel has to be dragged in order to trigger the page change.
