@@ -13,7 +13,11 @@
         var settings = {
             duration: 300,
             direction: "horizontal",
-            minimumDrag: 20
+            minimumDrag: 20,
+            beforeStart: function(){},
+            afterStart: function(){},
+            beforeStop: function(){},
+            afterStop: function(){}
         };
 
         $.extend(settings, options || {});
@@ -47,12 +51,18 @@
                 list.draggable({
                     axis: "x",
                     start: function(event) {
+                        settings.beforeStart.apply(list, arguments);
+
                         var data = event.originalEvent.touches ? event.originalEvent.touches[0] : event;
                         start = {
                             coords: [ data.pageX, data.pageY ]
                         };
+
+                        settings.afterStart.apply(list, arguments);
                     },
                     stop: function(event) {
+                        settings.beforeStop.apply(list, arguments);
+
                         var data = event.originalEvent.touches ? event.originalEvent.touches[0] : event;
                         stop = {
                             coords: [ data.pageX, data.pageY ]
@@ -85,6 +95,8 @@
                         function adjustment() {
                             return width - dragDelta();
                         }
+
+                        settings.afterStop.apply(list, arguments)
                     }
                 });
             } else if (settings.direction.toLowerCase() === "vertical") {
@@ -98,12 +110,18 @@
                 list.draggable({
                     axis: "y",
                     start: function(event) {
+                        settings.beforeStart.apply(list, arguments);
+
                         var data = event.originalEvent.touches ? event.originalEvent.touches[0] : event;
                         start = {
                             coords: [ data.pageX, data.pageY ]
                         };
+
+                        settings.afterStart.apply(list, arguments);
                     },
                     stop: function(event) {
+                        settings.beforeStop.apply(list, arguments);
+
                         var data = event.originalEvent.touches ? event.originalEvent.touches[0] : event;
                         stop = {
                             coords: [ data.pageX, data.pageY ]
@@ -136,6 +154,8 @@
                         function adjustment() {
                             return height - dragDelta();
                         }
+
+                        settings.afterStop.apply(list, arguments);
                     }
                 });
             }
