@@ -5,3 +5,7 @@ Available options:
 duration: this is the number of milliseconds for the slide transition to happen.
 direction: whether the carousel is a "horizontal" or "vertical" carousel.
 minimumDrag: this is the minimum distance the carousel has to be dragged in order to trigger the page change.
+beforeStart: callback that will be called right as the drag event is triggered. "this" = the jQuery(list)
+afterStart: callback that will be called right after the start event is triggered. "this" = the jQuery(list)
+beforeStop: callback that will be called right as the drag has stopped. "this" = the jQuery(list)
+beforeStart: callback that will be called right after the drag has stopped. "this" = the jQuery(list)
