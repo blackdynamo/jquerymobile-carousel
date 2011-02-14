@@ -1,5 +1,7 @@
 You must use the jquery.ui.ipad.js plugin in order for jQuery UI widgets to recognize mobile touch events as click events.
 
+Demo: http://jsfiddle.net/blackdynamo/yxhzU/
+
 Available options:
 
 duration: this is the number of milliseconds for the slide transition to happen.
