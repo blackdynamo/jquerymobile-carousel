@@ -5,6 +5,7 @@
  * Blog: http://developingwithstyle.blogspot.com
  *
  * Copyright 2010, Donnovan Lewis
+ * Edits: Benjamin Gleitzman (gleitz@mit.edu)
  * Licensed under the MIT
  */
 
@@ -75,7 +76,8 @@
                                 list.animate({ left: "+=" + dragDelta()}, settings.duration);
                                 return;
                             }
-                            list.animate({ left: "-=" + adjustment()}, settings.duration);
+                            var new_width = -1 * width * currentPage;
+                            list.animate({ left: new_width}, settings.duration);
                             currentPage++;
                         }
 
@@ -84,7 +86,8 @@
                                 list.animate({ left: "-=" + dragDelta()}, settings.duration);
                                 return;
                             }
-                            list.animate({ left: "+=" + adjustment()}, settings.duration);
+                            var new_width = -1 * width * (currentPage - 1);
+                            list.animate({ left: -1 * width * (currentPage - 2)}, settings.duration);
                             currentPage--;
                         }
 
@@ -96,7 +99,7 @@
                             return width - dragDelta();
                         }
 
-                        settings.afterStop.apply(list, arguments)
+                        settings.afterStop.apply(list, arguments);
                     }
                 });
             } else if (settings.direction.toLowerCase() === "vertical") {
@@ -134,7 +137,8 @@
                                 list.animate({ top: "+=" + dragDelta()}, settings.duration);
                                 return;
                             }
-                            list.animate({ top: "-=" + adjustment()}, settings.duration);
+                            var new_width = -1 * height * currentPage;
+                            list.animate({ top: new_width}, settings.duration);
                             currentPage++;
                         }
 
@@ -143,7 +147,8 @@
                                 list.animate({ top: "-=" + dragDelta()}, settings.duration);
                                 return;
                             }
-                            list.animate({ top: "+=" + adjustment()}, settings.duration);
+                            var new_width = -1 * height * (currentPage - 2);
+                            list.animate({ top: new_width}, settings.duration);
                             currentPage--;
                         }
 
