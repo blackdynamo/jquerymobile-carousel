@@ -28,13 +28,36 @@
 
             var originalList = $(this);
             var pages = originalList.children();
-            var width = originalList.parent().width();
-            var height = originalList.parent().height();
+            //var width = originalList.parent().width();
+            //var height = originalList.parent().height();
+            var width = originalList.parent().css('width');
+            var height = originalList.parent().css('width');
+            
+            // scales the dimension (height or width).  if it is a relative
+            // dimension, it strips the % and scales, then reattaches
+            function scaleDimension(dim, scale){
+                new_dim = dim * scale;
+                if(dim.match(/%$/))
+                {
+                    pct = parseFloat(dim.substring(0, dim.length - 1));
+                    new_dim = '' + (scale * pct) + '%';
+                }
+                return new_dim;
+            }
+            
+            // if the width and height are percentages, we want to strip
+            // the percentages, compute the new percentages, then re-attach
+            listWidth = scaleDimension(width, pages.length);
+            listItemWidth = width
+            if(width.match(/%$/))
+            {
+                listItemWidth = scaleDimension(width, (1/pages.length));
+            }
 
             //Css
             var containerCss = {position: "relative", overflow: "hidden", width: width, height: height};
-            var listCss = {position: "relative", padding: "0", margin: "0", listStyle: "none", width: pages.length * width};
-            var listItemCss = {width: width, height: height};
+            var listCss = {position: "relative", padding: "0", margin: "0", listStyle: "none", width: listWidth};
+            var listItemCss = {width: listItemWidth, height: height};
 
             var container = $("<div>").css(containerCss);
             var list = $("<ul>").css(listCss);
@@ -45,6 +68,7 @@
                 $.each(pages, function(i) {
                     var li = $("<li>")
                             .css($.extend(listItemCss, {float: "left"}))
+                            .addClass($(this).attr('class'))
                             .html($(this).html());
                     list.append(li);
                 });
@@ -70,25 +94,28 @@
                         };
 
                         start.coords[0] > stop.coords[0] ? moveLeft() : moveRight();
+                        
+                        function moveToNewPage(newPage)
+                        {
+                            var new_x = scaleDimension(width, -1 * (newPage - 1));
+                            list.animate({ left: new_x}, settings.duration);
+                            currentPage = newPage;
+                        }
 
                         function moveLeft() {
+                            newPage = currentPage + 1;
                             if (currentPage === pages.length || dragDelta() < settings.minimumDrag) {
-                                list.animate({ left: "+=" + dragDelta()}, settings.duration);
-                                return;
+                                newPage = currentPage;
                             }
-                            var new_width = -1 * width * currentPage;
-                            list.animate({ left: new_width}, settings.duration);
-                            currentPage++;
+                            moveToNewPage(newPage);
                         }
 
                         function moveRight() {
+                            newPage = currentPage - 1;
                             if (currentPage === 1 || dragDelta() < settings.minimumDrag) {
-                                list.animate({ left: "-=" + dragDelta()}, settings.duration);
-                                return;
+                                newPage = currentPage;
                             }
-                            var new_width = -1 * width * (currentPage - 1);
-                            list.animate({ left: -1 * width * (currentPage - 2)}, settings.duration);
-                            currentPage--;
+                            moveToNewPage(newPage);
                         }
 
                         function dragDelta() {
@@ -106,6 +133,7 @@
                 $.each(pages, function(i) {
                     var li = $("<li>")
                             .css(listItemCss)
+                            .addClass($(this).attr('class'))
                             .html($(this).html());
                     list.append(li);
                 });
@@ -131,25 +159,28 @@
                         };
 
                         start.coords[1] > stop.coords[1] ? moveUp() : moveDown();
+                        
+                        function moveToNewPage(newPage)
+                        {
+                            var new_y = scaleDimension(height, -1 * (newPage - 1));
+                            list.animate({ top: new_y}, settings.duration);
+                            currentPage = newPage;
+                        }
 
                         function moveUp() {
+                            newPage = currentPage + 1;
                             if (currentPage === pages.length || dragDelta() < settings.minimumDrag) {
-                                list.animate({ top: "+=" + dragDelta()}, settings.duration);
-                                return;
+                                newPage = currentPage;
                             }
-                            var new_width = -1 * height * currentPage;
-                            list.animate({ top: new_width}, settings.duration);
-                            currentPage++;
+                            moveToNewPage(newPage);
                         }
 
                         function moveDown() {
+                            newPage = currentPage - 1;
                             if (currentPage === 1 || dragDelta() < settings.minimumDrag) {
-                                list.animate({ top: "-=" + dragDelta()}, settings.duration);
-                                return;
+                                newPage = currentPage;
                             }
-                            var new_width = -1 * height * (currentPage - 2);
-                            list.animate({ top: new_width}, settings.duration);
-                            currentPage--;
+                            moveToNewPage(newPage);
                         }
 
                         function dragDelta() {
