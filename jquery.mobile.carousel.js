@@ -126,6 +126,7 @@
                             return width - dragDelta();
                         }
 
+                        arguments[1].currentPage = currentPage;
                         settings.afterStop.apply(list, arguments);
                     }
                 });
@@ -191,6 +192,7 @@
                             return height - dragDelta();
                         }
 
+                        arguments[1].currentPage = currentPage;
                         settings.afterStop.apply(list, arguments);
                     }
                 });
